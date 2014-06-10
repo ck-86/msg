@@ -1,16 +1,19 @@
-// Using built fucn to extend class
+/*-------------------------------------------------------------/
+| Message
+|--------------------------------------------------------------/
+| Using built object to extend class 
+*/
 var Message = Built.Object.extend("message_test");
 
-Message.prototype.saveMessage = function(model) {
+/*--------------------------------------------/
+	create() - save on DB and in Collection
+/---------------------------------------------*/
+Message.prototype.create = function(model) {
 	var message = new Message;
 	console.log( JSON.stringify(model) );
 	message.set(model);
 	message.save().then( function(response) {
-		model.id = response.uid;
-		messages.push(message);
+		//unshift will at element at 0 index
+		messages.unshift( message.toJSON() );
 	});
-};
-
-Message.prototype.deleteMessage = function() {
-	console.log( this.get('uid') );
 };

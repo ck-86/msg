@@ -1,0 +1,114 @@
+
+/*----------------------------------------/
+	Signup View
+/-----------------------------------------*/
+var SignupView = Backbone.View.extend({
+	template: getTemplate('signupTemplate'),
+	
+	render: function(){
+		this.$el.html( this.template() );
+		return this;
+	},
+
+	events: {
+		'submit' : 'submit'
+	},
+
+	submit: function(e) {
+		e.preventDefault();
+		
+		//Getting Values from the form
+		var user = {
+			first_name : $.trim( $('#first_name').val() ),
+			last_name : $.trim( $('#last_name').val() ),
+			email : $.trim( $('#email').val() ),
+			password : $.trim( $('#password').val() ),
+			password_confirmation : $.trim( $('#password_confirmation').val() ),
+			active : true
+		};
+
+		/*-------------------------------------------------------------
+			Custom func `validate` - checks the user object values
+		-------------------------------------------------------------*/
+		Built.User.validate(user, { 
+			onSuccess : function(data, res) {
+				/*--------------------------------------------
+					On Successful validation `register` user
+					using `Built.User.register()` method
+				--------------------------------------------*/
+				Built.User.register(data, {
+					onSuccess : function(data, res) {
+						// Remove sign-up form
+						$(".signup").children().fadeOut();
+
+						var message = "<strong>You have successfully completed registeration.</strong>\
+						<p>Please check your email and activate your account.</p>";
+
+						// Show Successful Sign-up message
+						$(".signup").html( message );
+					},
+					onError : function(error) {
+						//User registeration error
+						if(error.errors.email) {
+							alert('Email ' + error.errors.email );
+						}
+
+						//If Account is Inactive - code is needed
+					}
+				})
+			},
+			onError : function(error) {
+				//Validation Error
+				alert(error);
+			}
+		});
+	}
+});
+
+/*----------------------------------------/
+	Login View
+/-----------------------------------------*/
+var LoginView = Backbone.View.extend({
+	template: getTemplate('loginTemplate'),
+
+	render: function(){
+		this.$el.html( this.template() );
+		return this;
+	},
+
+	events: {
+		'submit' : 'submit'
+	},
+
+	submit: function(e) {
+		e.preventDefault();
+		var user = {
+			email : $.trim( $('#login_email').val() ),
+			password : $.trim( $('#login_password').val() ),
+		};
+
+		if(user.email && user.password){
+
+			// Show preloader
+			$('.login').append( showProgressbar(50) );
+		} else {
+			alert('Email and Password is required to login.');
+		}
+		
+
+		Built.User.login(user.email, user.password, {
+			onSuccess : function(data, res){
+				if(res.status === 200){
+					$('.notification').remove();
+					Built.User.saveSession(); // Save session in localStorage
+					Backbone.history.navigate("#/compose");
+				}
+			},
+
+			onError : function(error) {
+				$('.notification').remove();
+				alert(error.errors.errors[0]);
+			}
+		});
+	}
+});
