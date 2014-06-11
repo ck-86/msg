@@ -39,7 +39,8 @@ var clearMain = function(){ $('.main').html(''); };
 var showProgressbar = function(){
 
 	var progressbar = '<div class="progress progress-striped notification active"> \
-			<div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
+			<div class="progress-bar progress-bar-success"  role="progressbar" \
+			aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">\
 			<span class="sr-only">Loading...</span></div></div>';
 
 	return progressbar;
@@ -50,11 +51,33 @@ var showProgressbar = function(){
 |--------------------------------------------------------------/
 | this will check user using Built.User.isAuthenticated()
 */
-var redirectInvalidUser = function(){
-
-	if( !Built.User.getSession() ){
-		console.log('Some error');
+var validateUserSession = function(){
+	Built.initialize('bltfec4086e0f10d942','message');
+	//**** Check User Session ****//
+	if( !Built.User.getSession() ) {
+		Backbone.history.navigate("#/");
+	} else {
+		/*--------------------------------------------------------------/
+			When session is available and user comes to home page then,
+			he will be redirected to 'inbox' route
+		/--------------------------------------------------------------*/
+		if( (Backbone.history.fragment==="") ){
+			Backbone.history.navigate("#/inbox");
+		}
 	}
+};
 
-	//Backbone.history.navigate("#/");
+
+/*---------------------------------------------------------------------/
+| logoutUser function
+|----------------------------------------------------------------------/
+| This will clear user session if available and shows logged out message
+*/
+var logoutUser = function() {
+	Built.initialize('bltfec4086e0f10d942','message');
+	if( Built.User.getSession() ){
+		Built.User.clearSession();	
+	} else {
+		validateUserSession();
+	}
 };

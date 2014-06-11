@@ -1,3 +1,16 @@
+/*----------------------------------------/
+	Logout Button View
+/-----------------------------------------*/
+var LogoutButtonView = Backbone.View.extend({
+
+	template: getTemplate('loginButtonTemplate'),
+
+	render: function() {
+		this.$el.html( this.template( Built.User.getSession() ) );
+		return this;
+	}
+});
+
 
 /*----------------------------------------/
 	Signup View
@@ -88,7 +101,6 @@ var LoginView = Backbone.View.extend({
 		};
 
 		if(user.email && user.password){
-
 			// Show preloader
 			$('.login').append( showProgressbar(50) );
 		} else {
@@ -101,7 +113,7 @@ var LoginView = Backbone.View.extend({
 				if(res.status === 200){
 					$('.notification').remove();
 					Built.User.saveSession(); // Save session in localStorage
-					Backbone.history.navigate("#/compose");
+					Backbone.history.navigate("#/inbox");
 				}
 			},
 
@@ -110,5 +122,54 @@ var LoginView = Backbone.View.extend({
 				alert(error.errors.errors[0]);
 			}
 		});
+	}
+});
+
+
+/*----------------------------------------/
+	Sidebar View
+/-----------------------------------------*/
+var SidebarView = Backbone.View.extend({
+	template: getTemplate('sidebarTemplate'),
+
+	render: function() {
+		this.$el.html( this.template() );
+		return this;
+	}
+});
+
+/*----------------------------------------/
+	Inbox View
+/-----------------------------------------*/
+var InboxView = Backbone.View.extend({
+	template: getTemplate('inboxTemplate'),
+
+	render: function() {
+		this.$el.html( this.template() );
+		return this;
+	}
+});
+
+/*----------------------------------------/
+	Compose View
+/-----------------------------------------*/
+var ComposeView = Backbone.View.extend({
+	template: getTemplate('composeTemplate'),
+
+	render: function() {
+		this.$el.html( this.template() );
+		return this;
+	}
+});
+
+/*----------------------------------------/
+	Recipient Template
+/-----------------------------------------*/
+var RecipientControlView = Backbone.View.extend({
+	template: getTemplate('recipientTemplate'),
+
+	render: function() {
+		this.$el.html( this.template( users ) );
+		return this;
 	}
 });

@@ -9,6 +9,8 @@ var AppRouter = Backbone.Router.extend({
 		"" : "defaultRoute", // Login-Page is our default Route
 		"compose" : "composeRoute",
 		"inbox" : "inboxRoute",
+		"logout" : "logoutRoute",
+		"test" : "testRoute",
 		"*notFound" : "notFound" //404
 	}
 });
@@ -19,36 +21,42 @@ var appRouter = new AppRouter;
 	Home Route
 /-----------------------------------------*/
 appRouter.on('route:defaultRoute', function() {
-	document.title = "Home Page";
+	validateUserSession();
 	clearMain();
-
+	document.title = "Home Page";
 	var signupView = new SignupView;
 	$('.main').append( signupView.render().el );
 
 	var loginView = new LoginView;
 	$('.main').append( loginView.render().el );
+
+	$('.menu-button').html(''); //Clear logout button
+
 });
 
 /*----------------------------------------/
 	Compose Mail Route
 /-----------------------------------------*/
 appRouter.on('route:composeRoute', function() {
-	document.title = "Compose New Message"
+	validateUserSession();
+	document.title = "Test";
 	clearMain();
 
-	if(Built.User.getSession){
-		console.log('Session is available...');
-		//console.log( (Built.getHeaders().authtoken) );
+		//Get all users for email list
+		window.users = new Users;
+		users.fetchUsers();
 
-		if(!Built.getHeaders().authtoken){
-			console.log('authtoken missing.');
-			console.log('re-initialize authtoken.');
-		}
-	}
+	var logoutButton = new LogoutButtonView;
+	$('.menu-button').html( logoutButton.render().el );
 
-	// if( !Built.User.getSession() ){
-	// 	Backbone.history.navigate("#/");
-	// }
+	var sidebarView = new SidebarView;
+	$('.main').append(sidebarView.render().el);
+
+	var composeView = new ComposeView;
+	$('.main').append(composeView.render().el);
+
+
+	
 });
 
 
@@ -56,17 +64,63 @@ appRouter.on('route:composeRoute', function() {
 	Inbox Route
 /-----------------------------------------*/
 appRouter.on('route:inboxRoute', function() {
-	document.title = "Inbox";
+	validateUserSession();
 	clearMain();
-	redirectInvalidUser();
+	document.title = "Inbox";
+
+		//pre-fetch all the messages
+		window.messages = new Messages; // Collection
+		messages.fetchMessages();
+
+	var logoutButton = new LogoutButtonView;
+	$('.menu-button').html( logoutButton.render().el );
+
+	var sidebarView = new SidebarView;
+	$('.main').append(sidebarView.render().el);
+
+	var inboxView = new InboxView;
+	$('.main').append(inboxView.render().el);
+});
+
+/*----------------------------------------/
+	Logout Route
+/-----------------------------------------*/
+appRouter.on('route:logoutRoute',function(){
+	logoutUser();
+	clearMain();
+	document.title = "Logout";
+	$('.main').html('You have been logged out.<a href="/#">Click Here To Login.</a>');
+
+	$('.menu-button').html('');
 });
 
 /*----------------------------------------/
 	404 Route
 /-----------------------------------------*/
 appRouter.on('route:notFound', function() {
-	document.title = "404 - Page Not Found";
+	validateUserSession();
 	clearMain();
+	document.title = "404 - Page Not Found";
+});
+
+
+/*----------------------------------------/
+	Test Route
+/-----------------------------------------*/
+appRouter.on('route:testRoute',function(){
+	validateUserSession();
+	document.title = "Test";
+	clearMain();
+
+	var logoutButton = new LogoutButtonView;
+	$('.menu-button').html( logoutButton.render().el );
+
+	var sidebarView = new SidebarView;
+	$('.main').append(sidebarView.render().el);
+
+	var composeView = new ComposeView;
+	$('.main').append(composeView.render().el);
+
 });
 
 Backbone.history.start();
