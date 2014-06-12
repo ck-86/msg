@@ -5,16 +5,16 @@
 <script src="js/lib/jquery.js"></script>
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/style.css">
-
+<link rel="stylesheet" href="css/chosen.css">
 
 </head>
 <body>
@@ -29,13 +29,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">eMail</a>
+          <a class="navbar-brand" href="#">msg</a>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="./">Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+        
+        <div class="menu-button">
+
+        </div>
+
       </div>
 </div>
 
@@ -43,10 +43,24 @@
 
 <div id="container">
 	<div class="row main">
+
 	</div>
 </div>
 
 
+<!-- Logout Button Template -->
+<script type="text/template" id="loginButtonTemplate">
+	<div class="navbar-collapse collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li>
+				<a> <%= first_name %> </a>
+			</li>
+			<li>
+				<a href="#/logout"> <span class="glyphicon glyphicon-log-out"></span> </a>
+			</li>
+		</ul>
+	</div>
+</script>
 
 <!-- Signup Template -->
 <script type="text/template" id="signupTemplate">
@@ -87,9 +101,89 @@
 	</div>
 </script>
 
+
+<!-- Sidebar Template -->
+<script type="text/template" id="sidebarTemplate">
+	<div class="col-md-2 col-md-offset-2">
+		<ul class="sidebar">
+			<li><a href="#/compose"> Compose </a></li>
+			<li><a href="#/inbox"> Inbox </a></li>
+		</ul>
+	</div>
+</script>
+
+<!-- Inbox Template -->
+<script type="text/template" id="inboxTemplate">
+	<div class="col-md-6">
+			<ul class="message_list">
+				
+				<li class="message">
+					<a href="#/inbox">
+					<div class="message_from"> Test Man - test@test.com 
+					</div>
+					<div class="message_subject">Subject</div>
+					</a>
+					<a href="" class="message_button"> DELETE </a>
+					<a href="" class="message_button"> ARCHIVE </a>
+				</li>
+
+				<li class="message">
+					<a href="#/inbox">
+					<div class="message_from"> Irom Man - test@test.com </div>
+					<div class="message_subject">Subject</div>
+					</a>
+					<a href="" class="message_button"> DELETE </a>
+					<a href="" class="message_button"> ARCHIVE </a>
+				</li>
+
+				<li class="message">
+					<a href="#/inbox">
+					<div class="message_from"> Irom Man - test@test.com </div>
+					<div class="message_subject">Subject</div>
+					</a>
+					<a href="" class="message_button"> DELETE </a>
+					<a href="" class="message_button"> ARCHIVE </a>
+				</li>
+			</ul>
+		</div>
+</script>
+
+<!-- Compose Template -->
+<script type="text/template" id="composeTemplate">
+	<div class="col-md-6">
+		<form id="compose-form">
+
+			<div id="recipient"></div>
+
+			<input class="form-control" id="message_subject" placeholder="subject : "></input>
+
+			<textarea class="form-control" rows="3" id="message_body" placeholder="message : "></textarea>
+			<div class="button-right">
+				<button class='send btn btn-md btn-success'>
+					<span class="glyphicon glyphicon-send"></span>
+						Send Message
+				</button>
+			</div>
+		</form>
+	</div>
+</script>
+
+<!-- Recipient Template -->
+<script type="text/template" id="recipientTemplate">
+	<select class="chosen-select form-control" id="message_recipient_uid" data-placeholder="To : " multiple>
+		<% users.each(function(user){ %>
+			<option> <%= user.get('email') %> </option>
+		<% }); %>
+	</select>
+</script>
+
+
+
 <script src="js/lib/underscore.js"></script>
 <script src="js/lib/backbone.js"></script>
-<script src="js/lib/builtio-dev.js"></script>	
+<script src="js/lib/builtio-dev.js"></script>
+<script src="js/lib/chosen.jquery.js"></script>
+<script src="js/lib/chosen.proto.js"></script>
 
 <script src="js/helper.js"></script>
 <script src="js/models.js"></script>
@@ -97,7 +191,6 @@
 <script src="js/collections.js"></script>
 <script src="js/routers.js"></script>
 <script src="js/app.js"></script>
-
 
 </body>
 </html>

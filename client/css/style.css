@@ -26,7 +26,7 @@ body {
   background: #FFFFFF;
 }
 
-.row{
+.main{
   box-shadow: 0px 0px 5px #888888;
   background: #FFFFFF;
   padding:5px;
@@ -67,17 +67,45 @@ padding: 10px;
 }
 
 .message_list {
-  background: #EEEEEE;
   padding: 10px;
 }
 
+.message{
+	padding: 5px 0px;
+	border-bottom:1px dashed #888888;
+	display: block;
+}
+
 .message_from {
-  font-style: italic;
-  border-right: 1px dotted #CCCCCC;
-  padding-right: 10px;
+  color:#2980b9;
+  font-weight: bold;
 }
 
 .message_subject {
-  color:#2980b9;
-  font-weight: bold;
+  font-style: italic;
+}
+
+.message_button{
+	font-size: 10px;
+	background: #CCCCCC;
+	color:#FFFFFF;
+	padding: 3px;
+	border-radius: 5px;
+	margin-right: 5px;
+}
+
+.message_button:hover{
+	text-decoration: none;
+	background: #3498db;
+	color: #FFFFFF;
+}
+
+.red{
+	background: #CECECE;
+	min-height: 50px;
+}
+
+.blue{
+	background: #EEEEEE;
+	min-height: 50px;
 }
