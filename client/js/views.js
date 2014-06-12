@@ -197,7 +197,8 @@ var ComposeView = Backbone.View.extend({
 	submit: function(e){
 		e.preventDefault();
 		var messageObject = {
-			'message_creator_uid' : Built.User.getSession().uid, // creator_uid is require
+			// creator_uid is require, need to specify in array for Built Include to work.
+			'message_creator_uid' : Array(Built.User.getSession().uid), 
 			'message_body' : $('#message_body').val(),
 			'message_subject' : $('#message_subject').val(),
 			'message_recipient_uid' : $('#message_recipient_uid').val()

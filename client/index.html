@@ -119,7 +119,10 @@
 <!-- Message Info Template -->
 <script type="text/template" id="messageInfoTemplate">
 		<a href="#/inbox">
-		<div class="message_from"><%= message_creator_uid %> 
+		<div class="message_from">
+			<%= message_creator_uid[0].first_name %> 
+			<%= message_creator_uid[0].last_name %> 
+			<%= '&lt;' + message_creator_uid[0].email + '&gt;' %> 
 		</div>
 		<div class="message_subject"><%= message_subject %></div>
 		</a>

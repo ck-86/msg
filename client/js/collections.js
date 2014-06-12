@@ -24,27 +24,14 @@ var Messages = Backbone.Collection.extend({
 		var messages = new Messages; //Init in local scope
 
 		var inboxQuery = new Built.Query('message');
-		inboxQuery.where('message_recipient_uid',Built.User.getSession().uid);
+		//inboxQuery.where('message_recipient_uid',Built.User.getSession().uid);
+		inboxQuery.include('message_creator_uid');
 		inboxQuery.descending('created_at');
 		inboxQuery.exec().then( function(allMessages) {
-			console.log(allMessages);
+			window.allMsg = allMessages;
 			_.each(allMessages, function(singleMessage) {
 				messages.add( singleMessage.toJSON() ); // messages is instance of Messages Collection
-
-				/*----------------------------------------/
-					Testing
-				/-----------------------------------------*/
-				var msg = singleMessage.toJSON();
-				window.emails = [];
-				//console.log(msg.message_recipient_uid);
-
-				if(msg.message_recipient_uid){
-					_.each(msg.message_recipient_uid, function(uid){
-						console.log(uid);
-						fetchEmailByUID(uid);
-					});
-				}
-
+				console.log( singleMessage.toJSON() )
 			});
 		}).then( function(){
 				var inboxView = new InboxView({ collection: messages});
