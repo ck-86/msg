@@ -114,50 +114,32 @@
 
 <!-- Inbox Template -->
 <script type="text/template" id="inboxTemplate">
-	<div class="col-md-6">
-			<ul class="message_list">
-				
-				<li class="message">
-					<a href="#/inbox">
-					<div class="message_from"> Test Man - test@test.com 
-					</div>
-					<div class="message_subject">Subject</div>
-					</a>
-					<a href="" class="message_button"> DELETE </a>
-					<a href="" class="message_button"> ARCHIVE </a>
-				</li>
-
-				<li class="message">
-					<a href="#/inbox">
-					<div class="message_from"> Irom Man - test@test.com </div>
-					<div class="message_subject">Subject</div>
-					</a>
-					<a href="" class="message_button"> DELETE </a>
-					<a href="" class="message_button"> ARCHIVE </a>
-				</li>
-
-				<li class="message">
-					<a href="#/inbox">
-					<div class="message_from"> Irom Man - test@test.com </div>
-					<div class="message_subject">Subject</div>
-					</a>
-					<a href="" class="message_button"> DELETE </a>
-					<a href="" class="message_button"> ARCHIVE </a>
-				</li>
-			</ul>
-		</div>
 </script>
+
+<!-- Message Info Template -->
+<script type="text/template" id="messageInfoTemplate">
+		<a href="#/inbox">
+		<div class="message_from"><%= message_creator_uid %> 
+		</div>
+		<div class="message_subject"><%= message_subject %></div>
+		</a>
+		<a href="" class="message_button"> DELETE </a>
+		<a href="" class="message_button"> ARCHIVE </a>
+</script>
+
 
 <!-- Compose Template -->
 <script type="text/template" id="composeTemplate">
 	<div class="col-md-6">
 		<form id="compose-form">
 
-			<div id="recipient"></div>
+			<div id="recipient">
+			<input class="form-control" placeholder="Please wait loading..." disabled></input>
+			</div>
 
 			<input class="form-control" id="message_subject" placeholder="subject : "></input>
 
-			<textarea class="form-control" rows="3" id="message_body" placeholder="message : "></textarea>
+			<textarea class="form-control" rows="5" id="message_body" placeholder="message : "></textarea>
 			<div class="button-right">
 				<button class='send btn btn-md btn-success'>
 					<span class="glyphicon glyphicon-send"></span>
@@ -170,9 +152,9 @@
 
 <!-- Recipient Template -->
 <script type="text/template" id="recipientTemplate">
-	<select class="chosen-select form-control" id="message_recipient_uid" data-placeholder="To : " multiple>
+	<select class="chosen-select form-control" id="message_recipient_uid" data-placeholder="to : " multiple>
 		<% users.each(function(user){ %>
-			<option> <%= user.get('email') %> </option>
+			<option value=<%= user.get('uid') %> > <%= user.get('email') %> </option>
 		<% }); %>
 	</select>
 </script>

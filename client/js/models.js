@@ -3,7 +3,7 @@
 |--------------------------------------------------------------/
 | Using built object to extend class 
 */
-var Message = Built.Object.extend("message_test");
+var Message = Built.Object.extend("message");
 
 /*--------------------------------------------/
 	create() - save on DB and in Collection

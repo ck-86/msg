@@ -57,8 +57,7 @@ body {
 }
 
 #compose-form {
-padding: 10px;
-  border-bottom:1px solid #CECECE;
+  padding: 10px;
 }
 
 #message_recipient_uid {

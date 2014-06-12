@@ -81,3 +81,30 @@ var logoutUser = function() {
 		validateUserSession();
 	}
 };
+
+/*-------------------------------------------------------------/
+| Show Recipient Select Box
+|--------------------------------------------------------------/
+| 'To' Box
+*/
+var showRecipientSelectBox = function(){
+	var recipientControlView = new RecipientControlView;
+	$('#recipient').html(recipientControlView.render().el);
+	$(".chosen-select").chosen();
+};
+
+/*-------------------------------------------------------------/
+| Fetch Email By UID
+|--------------------------------------------------------------/
+| 
+*/
+var fetchEmailByUID = function(uid, callback) {
+
+	var users=Built.User.getUserQuery();
+	users.where('uid', uid)
+	.exec()
+	.success(function(usersArray, responseObject){
+   		window.userEmail = usersArray[0].get('email');
+   		emails.push([uid,userEmail]);
+	});
+}

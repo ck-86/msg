@@ -17,17 +17,40 @@ var Messages = Backbone.Collection.extend({
 		});
 	},
 
+	url : 'https://api.built.io/v1/classes/message_test/objects/',
+
 	fetchMessages : function(){
+
+		var messages = new Messages; //Init in local scope
+
 		var inboxQuery = new Built.Query('message');
+		inboxQuery.where('message_recipient_uid',Built.User.getSession().uid);
 		inboxQuery.descending('created_at');
 		inboxQuery.exec().then( function(allMessages) {
+			console.log(allMessages);
 			_.each(allMessages, function(singleMessage) {
 				messages.add( singleMessage.toJSON() ); // messages is instance of Messages Collection
-			});
-		});
-	},
 
-	url : 'https://api.built.io/v1/classes/message_test/objects/'
+				/*----------------------------------------/
+					Testing
+				/-----------------------------------------*/
+				var msg = singleMessage.toJSON();
+				window.emails = [];
+				//console.log(msg.message_recipient_uid);
+
+				if(msg.message_recipient_uid){
+					_.each(msg.message_recipient_uid, function(uid){
+						console.log(uid);
+						fetchEmailByUID(uid);
+					});
+				}
+
+			});
+		}).then( function(){
+				var inboxView = new InboxView({ collection: messages});
+				$('.main').append(inboxView.render().el);
+		});
+	}
 });
 
 
@@ -46,9 +69,7 @@ var Users = Backbone.Collection.extend({
 				users.add( singleUser.toJSON() );
 			});
 		}).then( function(){
-			var recipientControlView = new RecipientControlView;
-			$('#recipient').html(recipientControlView.render().el);
-			$(".chosen-select").chosen();
+			showRecipientSelectBox(); //'to' box
 		} );
 	}
 });

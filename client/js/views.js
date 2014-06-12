@@ -142,13 +142,42 @@ var SidebarView = Backbone.View.extend({
 	Inbox View
 /-----------------------------------------*/
 var InboxView = Backbone.View.extend({
+
+	tagName:'ul',
+
+	className : 'col-md-6',
+
 	template: getTemplate('inboxTemplate'),
 
 	render: function() {
 		this.$el.html( this.template() );
+		this.collection.forEach(this.addOne, this);
+		return this;
+	},
+
+	addOne : function(message){
+		var messageInfoView = new MessageInfoView( { model:message } );
+		this.$el.append( messageInfoView.render().el );
+	}
+});
+
+/*----------------------------------------/
+	Message View - Items in Inbox
+/-----------------------------------------*/
+var MessageInfoView = Backbone.View.extend({
+
+	tagName : 'li',
+
+	className: 'message',
+
+	template: getTemplate('messageInfoTemplate'),
+
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON()	 ) );
 		return this;
 	}
 });
+
 
 /*----------------------------------------/
 	Compose View
@@ -159,6 +188,34 @@ var ComposeView = Backbone.View.extend({
 	render: function() {
 		this.$el.html( this.template() );
 		return this;
+	},
+
+	events : {
+		'submit' : 'submit'
+	},
+
+	submit: function(e){
+		e.preventDefault();
+		var messageObject = {
+			'message_creator_uid' : Built.User.getSession().uid, // creator_uid is require
+			'message_body' : $('#message_body').val(),
+			'message_subject' : $('#message_subject').val(),
+			'message_recipient_uid' : $('#message_recipient_uid').val()
+		};
+		
+		var message = new Message;
+		message.set(messageObject); // Setting Value
+		message.save({
+			onSuccess : function(data) {
+				alert('1 Message Sent.');
+				$('#message_body').val('');
+				$('#message_subject').val('');
+				showRecipientSelectBox();
+			},
+			onError : function(error) {
+				console.log(error);
+			}
+		});
 	}
 });
 

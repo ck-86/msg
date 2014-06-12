@@ -45,6 +45,7 @@ appRouter.on('route:composeRoute', function() {
 		//Get all users for email list
 		window.users = new Users;
 		users.fetchUsers();
+		
 
 	var logoutButton = new LogoutButtonView;
 	$('.menu-button').html( logoutButton.render().el );
@@ -54,9 +55,6 @@ appRouter.on('route:composeRoute', function() {
 
 	var composeView = new ComposeView;
 	$('.main').append(composeView.render().el);
-
-
-	
 });
 
 
@@ -69,7 +67,7 @@ appRouter.on('route:inboxRoute', function() {
 	document.title = "Inbox";
 
 		//pre-fetch all the messages
-		window.messages = new Messages; // Collection
+		var messages = new Messages;
 		messages.fetchMessages();
 
 	var logoutButton = new LogoutButtonView;
@@ -77,9 +75,6 @@ appRouter.on('route:inboxRoute', function() {
 
 	var sidebarView = new SidebarView;
 	$('.main').append(sidebarView.render().el);
-
-	var inboxView = new InboxView;
-	$('.main').append(inboxView.render().el);
 });
 
 /*----------------------------------------/
