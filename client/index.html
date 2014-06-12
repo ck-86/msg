@@ -53,10 +53,7 @@
 	<div class="navbar-collapse collapse">
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				<a> <%= first_name %> </a>
-			</li>
-			<li>
-				<a href="#/logout"> <span class="glyphicon glyphicon-log-out"></span> </a>
+				<a href="#/logout"> <%= first_name %> <span class="glyphicon glyphicon-log-out"></span> </a>
 			</li>
 		</ul>
 	</div>
@@ -118,16 +115,25 @@
 
 <!-- Message Info Template -->
 <script type="text/template" id="messageInfoTemplate">
-		<a href="#/inbox">
+		<a href="#/inbox" class="message_link">
 		<div class="message_from">
+			<span class="glyphicon glyphicon-user"></span>
 			<%= message_creator_uid[0].first_name %> 
-			<%= message_creator_uid[0].last_name %> 
-			<%= '&lt;' + message_creator_uid[0].email + '&gt;' %> 
+			<%= message_creator_uid[0].last_name %>
+			<span class="message_email">
+				<%- '<' + message_creator_uid[0].email + '>' %> 
+			<span>
 		</div>
-		<div class="message_subject"><%= message_subject %></div>
+		<div class="message_subject">
+			<span class="glyphicon glyphicon-arrow-right"></span>
+			<%= message_subject %>
+		</div>
 		</a>
 		<a href="" class="message_button"> DELETE </a>
 		<a href="" class="message_button"> ARCHIVE </a>
+		<span class="message_datetime">
+				<%- created_at  %> 
+		<span>
 </script>
 
 

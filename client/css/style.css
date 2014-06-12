@@ -70,18 +70,43 @@ body {
 }
 
 .message{
-	padding: 5px 0px;
+	padding: 5px 10px;
 	border-bottom:1px dashed #888888;
 	display: block;
 }
 
+.message:hover{
+    background: #F5F8FA;
+}
+
+.message_link{
+  display: block;
+}
+
+.message_link:hover{
+  background: #F5F8FA;
+  text-decoration: none;
+}
+
 .message_from {
   color:#2980b9;
-  font-weight: bold;
 }
 
 .message_subject {
   font-style: italic;
+  font-weight: bold;
+}
+
+.message_email{
+  font-weight: normal;
+  font-style: italic;
+  color: #AAAAAA;
+}
+
+.message_datetime{
+  font-size: 12px;
+  font-style: italic;
+  color: #AAAAAA;
 }
 
 .message_button{
