@@ -9,6 +9,7 @@ var AppRouter = Backbone.Router.extend({
 		"" : "defaultRoute", // Login-Page is our default Route
 		"compose" : "composeRoute",
 		"inbox" : "inboxRoute",
+		"inbox/:uid" : "viewMailRoute",
 		"logout" : "logoutRoute",
 		"test" : "testRoute",
 		"*notFound" : "notFound" //404
@@ -39,7 +40,7 @@ appRouter.on('route:defaultRoute', function() {
 /-----------------------------------------*/
 appRouter.on('route:composeRoute', function() {
 	validateUserSession();
-	document.title = "Test";
+	document.title = "Compose";
 	clearMain();
 
 		//Get all users for email list
@@ -66,15 +67,48 @@ appRouter.on('route:inboxRoute', function() {
 	clearMain();
 	document.title = "Inbox";
 
-		//pre-fetch all the messages
+	var logoutButton = new LogoutButtonView;
+	$('.menu-button').html( logoutButton.render().el );
+
+	var sidebarView = new SidebarView;
+	$('.main').append(sidebarView.render().el);
+
+		// Init 'messages' collection
 		var messages = new Messages;
-		messages.fetchMessages();
+		/*----------------------------------------------------------------/
+			Fetch Message and 'onSuccess' show inboxView
+			NOTE : 'response' param is required in 'onSuccess' function
+		/----------------------------------------------------------------*/
+		messages.fetchMessages({ onSuccess: function(response){
+			inboxView = new InboxView({ collection:response });
+			$('.main').append(inboxView.render().el);
+			}
+		});
+});
+
+/*----------------------------------------/
+	Email Read View
+/-----------------------------------------*/
+
+appRouter.on('route:viewMailRoute', function(uid){
+	validateUserSession();
+	clearMain();
+	document.title = "Reading Email";
 
 	var logoutButton = new LogoutButtonView;
 	$('.menu-button').html( logoutButton.render().el );
 
 	var sidebarView = new SidebarView;
 	$('.main').append(sidebarView.render().el);
+
+	//var readView = new ReadView;
+	//$('.main').append( readView.render().el );
+
+	var message = new Message;
+	message.fetchMessage( uid, function(msg){
+		var readView = new ReadView({model:msg});
+		$('.main').append( readView.render().el );
+	});
 });
 
 /*----------------------------------------/
@@ -96,6 +130,8 @@ appRouter.on('route:notFound', function() {
 	validateUserSession();
 	clearMain();
 	document.title = "404 - Page Not Found";
+
+	$('.main').html('<h3>Page Not Found.</h3>');
 });
 
 

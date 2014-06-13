@@ -78,7 +78,8 @@ var logoutUser = function() {
 	if( Built.User.getSession() ){
 		Built.User.clearSession();	
 	} else {
-		validateUserSession();
+		//If No Session then redirect to home page
+		Backbone.history.navigate("#/");
 	}
 };
 

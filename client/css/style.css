@@ -97,6 +97,10 @@ body {
   font-weight: bold;
 }
 
+.message_subject:hover {
+    text-decoration: underline;
+ }
+
 .message_email{
   font-weight: normal;
   font-style: italic;
@@ -124,6 +128,14 @@ body {
 	color: #FFFFFF;
 }
 
+.inbox_empty_message{
+  color: #EEEEEE;
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 1px 1px #CCCCCC;
+}
+
 .red{
 	background: #CECECE;
 	min-height: 50px;
@@ -132,4 +144,46 @@ body {
 .blue{
 	background: #EEEEEE;
 	min-height: 50px;
+}
+
+.message_info {
+  padding: 5px;
+  border-bottom: 1px solid #EBE4C7;
+  background: #FAF5DE;
+}
+
+.message_info_subject {
+  padding: 5px;
+  border-bottom: 1px solid #EBE4C7;
+  background: #FAF5DE;
+  font-weight: bold;
+}
+
+.message_info_body {
+  padding: 15px 10px;
+  margin-top: 5px;
+}
+
+.message_envelope{
+  box-shadow: 0px 0px 5px #CCCCCC;
+  border-radius: 10px;
+}
+
+.message_info_recipient{
+  list-style: none;
+  display:inline;
+  padding: 0px;
+}
+
+.message_info_recipient li {
+  display: inline;
+  padding-right: 3px;
+}
+
+.message_info_recipient li:after {
+  content: ',';
+}
+
+.message_info_recipient li:last-child:after{
+  content: '';
 }

@@ -17,9 +17,9 @@ var Messages = Backbone.Collection.extend({
 		});
 	},
 
-	url : 'https://api.built.io/v1/classes/message_test/objects/',
+	url : 'https://api.built.io/v1/classes/message/objects/',
 
-	fetchMessages : function(){
+	fetchMessages : function(callback){
 
 		var messages = new Messages; //Init in local scope
 
@@ -28,13 +28,11 @@ var Messages = Backbone.Collection.extend({
 		inboxQuery.include('message_creator_uid');
 		inboxQuery.descending('created_at');
 		inboxQuery.exec().then( function(allMessages) {
-			window.allMsg = allMessages;
 			_.each(allMessages, function(singleMessage) {
 				messages.add( singleMessage.toJSON() ); // messages is instance of Messages Collection
 			});
 		}).then( function(){
-				var inboxView = new InboxView({ collection: messages});
-				$('.main').append(inboxView.render().el);
+				callback.onSuccess(messages);
 		});
 	}
 });

@@ -115,11 +115,12 @@
 
 <!-- Message Info Template -->
 <script type="text/template" id="messageInfoTemplate">
-		<a href="#/inbox" class="message_link">
+		<a href="#/inbox/<%= uid %>" class="message_link">
 		<div class="message_from">
 			<span class="glyphicon glyphicon-user"></span>
 			<%= message_creator_uid[0].first_name %> 
 			<%= message_creator_uid[0].last_name %>
+
 			<span class="message_email">
 				<%- '<' + message_creator_uid[0].email + '>' %> 
 			<span>
@@ -129,8 +130,10 @@
 			<%= message_subject %>
 		</div>
 		</a>
-		<a href="" class="message_button"> DELETE </a>
-		<a href="" class="message_button"> ARCHIVE </a>
+			<button class="btn btn-link btn-xs delete_message">
+				Delete
+			</button>
+
 		<span class="message_datetime">
 				<%- created_at  %> 
 		<span>
@@ -156,6 +159,34 @@
 				</button>
 			</div>
 		</form>
+	</div>
+</script>
+
+<!-- Email Read Template -->
+<script type="text/template" id="readTemplate">
+	<div class="col-md-6">
+		<div class="message_envelope">
+			<div class='message_info'>From : 
+				<% _.each(message_creator_uid, function(creator) { %> 
+					<%= creator.email %>
+				<% } ); %>
+			</div>
+
+
+			<div class='message_info'>To :
+				<ul class="message_info_recipient">
+				<% _.each(message_recipient_uid, function(recipient) { %> 
+						<li><%= recipient.email %></li>
+				<% } ); %>
+				</ul>
+			</div>
+
+
+			<div class="message_info_subject">Subject : <%= message_subject	%> </div>
+			<div class="message_info_body">
+				<%= message_body %>
+			</div>
+		</div>
 	</div>
 </script>
 

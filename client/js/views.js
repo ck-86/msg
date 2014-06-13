@@ -145,12 +145,17 @@ var InboxView = Backbone.View.extend({
 
 	tagName:'ul',
 
-	className : 'col-md-6',
+	className : 'col-md-6 inbox',
 
 	template: getTemplate('inboxTemplate'),
 
 	render: function() {
 		this.$el.html( this.template() );
+
+		if(this.collection.length === 0){
+			console.log('Inbox Empty');
+		}
+
 		this.collection.forEach(this.addOne, this);
 		return this;
 	},
@@ -172,10 +177,27 @@ var MessageInfoView = Backbone.View.extend({
 
 	template: getTemplate('messageInfoTemplate'),
 
+	events : {
+		'click .delete_message' : 'deleteMessage'
+	},
+
 	render: function() {
-		this.$el.html( this.template( this.model.toJSON()	 ) );
+		this.$el.html( this.template( this.model.toJSON() ) );
 		return this;
-	}
+	},
+
+	deleteMessage : function(e){
+		e.preventDefault;
+		var thatModel = this;
+
+		//First Destroy Element on Built and then on 
+		this.model.destroy({
+			success: function(){
+				thatModel.$el.slideUp( function(){
+				thatModel.$el.remove();
+			})}
+		});
+	},
 });
 
 
@@ -217,6 +239,23 @@ var ComposeView = Backbone.View.extend({
 				console.log(error);
 			}
 		});
+	}
+});
+
+/*----------------------------------------/
+	Email Read Template
+/-----------------------------------------*/
+var ReadView = Backbone.View.extend({
+
+	initialize: function(){
+		console.log(this.model.toJSON());
+	},
+
+	template: getTemplate('readTemplate'),
+
+	render: function() {
+		this.$el.html( this.template( this.model.toJSON() ) );
+		return this;
 	}
 });
 
