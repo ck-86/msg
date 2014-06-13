@@ -24,7 +24,7 @@ Built.User.validate = function (user, callback) {
 	Template Helper Function
 /-----------------------------------------*/
 var getTemplate = function(id) {
-	return _.template( $('#' + id).html() );
+	return _.template( $('#' + id).html());
 };
 
 // Clear Main Section

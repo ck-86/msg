@@ -127,7 +127,7 @@
 		</div>
 		<div class="message_subject">
 			<span class="glyphicon glyphicon-arrow-right"></span>
-			<%= message_subject %>
+			<%- message_subject %>
 		</div>
 		</a>
 			<button class="btn btn-link btn-xs delete_message">
@@ -182,9 +182,9 @@
 			</div>
 
 
-			<div class="message_info_subject">Subject : <%= message_subject	%> </div>
+			<div class="message_info_subject">Subject : <%- message_subject	%> </div>
 			<div class="message_info_body">
-				<%= message_body %>
+				<%- message_body %>
 			</div>
 		</div>
 	</div>
