@@ -143,6 +143,11 @@ var SidebarView = Backbone.View.extend({
 /-----------------------------------------*/
 var InboxView = Backbone.View.extend({
 
+	initialize: function(){
+		//console.log(this.collection);
+		this.collection.on('destroy', this.isInboxEmpty, this);
+	},
+
 	tagName:'ul',
 
 	className : 'col-md-6 inbox',
@@ -152,9 +157,7 @@ var InboxView = Backbone.View.extend({
 	render: function() {
 		this.$el.html( this.template() );
 
-		if(this.collection.length === 0){
-			console.log('Inbox Empty');
-		}
+		this.isInboxEmpty();
 
 		this.collection.forEach(this.addOne, this);
 		return this;
@@ -163,6 +166,12 @@ var InboxView = Backbone.View.extend({
 	addOne : function(message){
 		var messageInfoView = new MessageInfoView( { model:message } );
 		this.$el.append( messageInfoView.render().el );
+	},
+
+	isInboxEmpty: function(){
+		if(this.collection.length === 0){
+			console.log(this.$el.html('<p class="inbox_empty_message">Inbox is empty.</p>'));
+		}
 	}
 });
 

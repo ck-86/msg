@@ -130,10 +130,10 @@ body {
 
 .inbox_empty_message{
   color: #EEEEEE;
-  text-align: left;
-  font-size: 30px;
+  text-align: center;
+  font-size: 45px;
   font-weight: bold;
-  text-shadow: 1px 1px #CCCCCC;
+  text-shadow: 1px 0px #CCCCCC;
 }
 
 .red{

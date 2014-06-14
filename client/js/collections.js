@@ -57,3 +57,16 @@ var Users = Backbone.Collection.extend({
 		} );
 	}
 });
+
+Users.prototype.searchUsers = function(searchTerm) {
+	var searchUserQuery = new Built.Query('built_io_application_user');
+		searchUserQuery.matches('email', '^' + searchTerm , 'i');
+		searchUserQuery.where('active', true);
+	searchUserQuery.exec().then( function(allUsers){
+		_.each(allUsers, function(singleUser){
+			users.add( singleUser.toJSON() );
+		});
+	}).then( function(){
+		showLiveRecipientSelectBox();
+	});
+};
