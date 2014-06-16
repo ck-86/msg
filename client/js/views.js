@@ -214,6 +214,10 @@ var MessageInfoView = Backbone.View.extend({
 	Compose View
 /-----------------------------------------*/
 var ComposeView = Backbone.View.extend({
+
+	initialize: function() {
+	},
+
 	template: getTemplate('composeTemplate'),
 
 	render: function() {
@@ -222,7 +226,8 @@ var ComposeView = Backbone.View.extend({
 	},
 
 	events : {
-		'submit' : 'submit'
+		'submit' : 'submit',
+		'keyup .search-field>input' : 'updateSelect'
 	},
 
 	submit: function(e){
@@ -248,6 +253,25 @@ var ComposeView = Backbone.View.extend({
 				console.log(error);
 			}
 		});
+	},
+
+	sayHello : function(){
+		//console.log( $('.default').val() );
+		var searchInput = $('.search-field>input').val();
+
+		console.log(searchInput);
+
+		if(searchInput.length > 1){
+			users.searchUsers( searchInput );
+		}
+	},
+
+	updateSelect : function(){
+		var searchInput = $('.search-field > input').val();
+
+		console.log('searching for ' + searchInput);
+
+		updateSelectBox(searchInput);
 	}
 });
 

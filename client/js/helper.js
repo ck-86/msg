@@ -93,3 +93,42 @@ var showRecipientSelectBox = function(){
 	$('#recipient').html(recipientControlView.render().el);
 	$(".chosen-select").chosen();
 };
+
+/*-------------------------------------------------------------/
+| Re-render Select Box
+|--------------------------------------------------------------/
+| Re-render 'To' box as user types
+*/
+var reRenderSelectBox = function(){
+	//users.reset();
+	_.each(users.models, function(user){
+		$('#message_recipient_uid').append( $('<option></option>')
+			.val(user.get('uid'))
+			.html(user.get('email')));
+	});
+	users.reset();
+
+	$("#message_recipient_uid").trigger("chosen:updated");
+}
+
+
+/*-------------------------------------------------------------/
+| Update Recipient Select Box
+|--------------------------------------------------------------/
+| 
+*/
+
+var updateSelectBox = function (searchTerm) {
+	console.log('Update with search term : ' + searchTerm);
+
+	var searchUserQuery = new Built.Query('built_io_application_user');
+		searchUserQuery.matches('email', '^' + searchTerm , 'i');
+		searchUserQuery.where('active', true);
+	searchUserQuery.exec().then( function(allUsers){
+		_.each(allUsers, function(singleUser){
+			users.add( singleUser.toJSON() );
+		});
+	}).then( function(){
+		reRenderSelectBox();
+	});
+}

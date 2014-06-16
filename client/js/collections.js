@@ -59,6 +59,7 @@ var Users = Backbone.Collection.extend({
 });
 
 Users.prototype.searchUsers = function(searchTerm) {
+
 	var searchUserQuery = new Built.Query('built_io_application_user');
 		searchUserQuery.matches('email', '^' + searchTerm , 'i');
 		searchUserQuery.where('active', true);
@@ -67,6 +68,16 @@ Users.prototype.searchUsers = function(searchTerm) {
 			users.add( singleUser.toJSON() );
 		});
 	}).then( function(){
-		showLiveRecipientSelectBox();
+		
+		if(!searchTerm){
+			console.log('No Search Term.');
+			users.reset(); // Removing Previous Values from Collection
+			console.log(users);
+			console.log('Empty Select Box');
+		} else {
+			console.log('Searching : ' + searchTerm);
+			reRenderSelectBox(searchTerm);
+		}
+		
 	});
 };

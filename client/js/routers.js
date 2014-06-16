@@ -12,6 +12,7 @@ var AppRouter = Backbone.Router.extend({
 		"inbox/:uid" : "viewMailRoute",
 		"logout" : "logoutRoute",
 		"test" : "testRoute",
+		"users/:searchTerm" : "usersRoute", //Get users list
 		"*notFound" : "notFound" //404
 	}
 });
@@ -45,8 +46,6 @@ appRouter.on('route:composeRoute', function() {
 
 		//Get all users for email list
 		window.users = new Users;
-		users.fetchUsers();
-		
 
 	var logoutButton = new LogoutButtonView;
 	$('.menu-button').html( logoutButton.render().el );
@@ -56,6 +55,8 @@ appRouter.on('route:composeRoute', function() {
 
 	var composeView = new ComposeView;
 	$('.main').append(composeView.render().el);
+
+	showRecipientSelectBox();
 });
 
 
@@ -101,15 +102,13 @@ appRouter.on('route:viewMailRoute', function(uid){
 	var sidebarView = new SidebarView;
 	$('.main').append(sidebarView.render().el);
 
-	//var readView = new ReadView;
-	//$('.main').append( readView.render().el );
-
 	var message = new Message;
 	message.fetchMessage( uid, function(msg){
 		var readView = new ReadView({model:msg});
 		$('.main').append( readView.render().el );
 	});
 });
+
 
 /*----------------------------------------/
 	Logout Route
