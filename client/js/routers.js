@@ -45,7 +45,7 @@ appRouter.on('route:composeRoute', function() {
 
 		//Get all users for email list
 		window.users = new Users;
-		users.fetchUsers();
+		//users.fetchUsers();
 		
 
 	var logoutButton = new LogoutButtonView;
@@ -56,6 +56,8 @@ appRouter.on('route:composeRoute', function() {
 
 	var composeView = new ComposeView;
 	$('.main').append(composeView.render().el);
+
+	showRecipientSelectBox();
 });
 
 

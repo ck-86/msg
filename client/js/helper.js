@@ -89,7 +89,20 @@ var logoutUser = function() {
 | 'To' Box
 */
 var showRecipientSelectBox = function(){
-	var recipientControlView = new RecipientControlView;
+	window.recipientControlView = new RecipientControlView;
 	$('#recipient').html(recipientControlView.render().el);
 	$(".chosen-select").chosen();
+	$(".chosen-select").trigger("chosen-updated");
 };
+
+var reRender = function(){
+	console.log('reRendering...')
+	recipientControlView.render();
+
+	console.log(users);
+
+	$(".chosen-select").chosen();
+	$('.chosen-select').on('change', function () {
+        console.log( $(this).attr("selected","selected") );
+    });
+}

@@ -222,7 +222,8 @@ var ComposeView = Backbone.View.extend({
 	},
 
 	events : {
-		'submit' : 'submit'
+		'submit' : 'submit',
+
 	},
 
 	submit: function(e){
@@ -272,10 +273,40 @@ var ReadView = Backbone.View.extend({
 	Recipient Template
 /-----------------------------------------*/
 var RecipientControlView = Backbone.View.extend({
+
+	events : {
+		'keyup .search-field > input' : 'updateChosen',
+
+	},
+
 	template: getTemplate('recipientTemplate'),
 
 	render: function() {
 		this.$el.html( this.template( users ) );
 		return this;
+	},
+
+	updateChosen : function(){
+		var that = this;
+
+		var searchInput = $('.search-field > input').val();
+
+		if(searchInput.length > 2){
+			console.log(searchInput);
+			var searchUserQuery = new Built.Query('built_io_application_user');
+				searchUserQuery.matches('email', '^' + searchInput, 'i' );
+				searchUserQuery.where('active', true);
+			searchUserQuery.exec().then( function(allUsers){
+				_.each(allUsers, function(singleUser){
+					if( users.add( singleUser.toJSON() ) ){
+						console.log('User Added');
+						var newValue = '<option value="' + singleUser.get('uid') + '">' + singleUser.get('email') +'</option>';
+						$(".chosen-select").append(newValue);
+					};
+				});
+
+				$("#message_recipient_uid").trigger("chosen:updated");
+			});
+		}
 	}
 });
