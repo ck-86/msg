@@ -36,37 +36,3 @@ var Messages = Backbone.Collection.extend({
 		});
 	}
 });
-
-
-/*-------------------------------------------------------------/
-| Users Collection
-|--------------------------------------------------------------/
-| 
-*/
-var Users = Backbone.Collection.extend({
-	fetchUsers: function(){
-		var userQuery = new Built.Query('built_io_application_user');
-			userQuery.where('active', true);
-			userQuery.ascending('email');
-		userQuery.exec().then( function(allUsers){
-			_.each(allUsers, function(singleUser){
-				users.add( singleUser.toJSON() );
-			});
-		}).then( function(){
-			showRecipientSelectBox(); //'to' box
-		} );
-	}
-});
-
-Users.prototype.searchUsers = function(searchTerm) {
-	var searchUserQuery = new Built.Query('built_io_application_user');
-		searchUserQuery.matches('email', '^' + searchTerm , 'i');
-		searchUserQuery.where('active', true);
-	searchUserQuery.exec().then( function(allUsers){
-		_.each(allUsers, function(singleUser){
-			users.add( singleUser.toJSON() );
-		});
-	}).then( function(){
-		showLiveRecipientSelectBox();
-	});
-};

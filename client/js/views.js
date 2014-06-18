@@ -282,7 +282,7 @@ var RecipientControlView = Backbone.View.extend({
 	template: getTemplate('recipientTemplate'),
 
 	render: function() {
-		this.$el.html( this.template( users ) );
+		this.$el.html( this.template( ) );
 		return this;
 	},
 
@@ -291,18 +291,26 @@ var RecipientControlView = Backbone.View.extend({
 
 		var searchInput = $('.search-field > input').val();
 
-		if(searchInput.length > 2){
+		if(searchInput.length > 1){
 			console.log(searchInput);
 			var searchUserQuery = new Built.Query('built_io_application_user');
 				searchUserQuery.matches('email', '^' + searchInput, 'i' );
 				searchUserQuery.where('active', true);
 			searchUserQuery.exec().then( function(allUsers){
 				_.each(allUsers, function(singleUser){
-					if( users.add( singleUser.toJSON() ) ){
-						console.log('User Added');
-						var newValue = '<option value="' + singleUser.get('uid') + '">' + singleUser.get('email') +'</option>';
-						$(".chosen-select").append(newValue);
-					};
+
+					//create Array for new user
+					var newUser = [singleUser.get('uid'), singleUser.get('email')];
+					
+					//check is user already present
+					var isUserPresent = checkUserInArray(newUser); // isUserPresent = TRUE when Duplicate value is found
+					
+					//if not present - create an Option Tag and Add into Select Tag
+					if(!isUserPresent) {
+						usersArray.push(newUser);
+						window.newOption = '<option value="' + singleUser.get('uid') + '">' + singleUser.get('email') +'</option>';
+						$(".chosen-select").append(newOption);
+					} 
 				});
 
 				$("#message_recipient_uid").trigger("chosen:updated");

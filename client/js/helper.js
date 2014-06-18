@@ -95,14 +95,16 @@ var showRecipientSelectBox = function(){
 	$(".chosen-select").trigger("chosen-updated");
 };
 
-var reRender = function(){
-	console.log('reRendering...')
-	recipientControlView.render();
-
-	console.log(users);
-
-	$(".chosen-select").chosen();
-	$('.chosen-select').on('change', function () {
-        console.log( $(this).attr("selected","selected") );
-    });
-}
+/*-------------------------------------------------------------/
+| Check User In Array
+|--------------------------------------------------------------/
+| Checks Duplicate Users In Array
+*/
+var checkUserInArray = function(comparer){
+  for(var i in usersArray){
+    if(comparer[0] === usersArray[i][0]){
+      return true; 
+    }
+  }
+  return false;
+};

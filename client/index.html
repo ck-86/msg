@@ -193,9 +193,7 @@
 <!-- Recipient Template -->
 <script type="text/template" id="recipientTemplate">
 	<select class="chosen-select form-control" id="message_recipient_uid" data-placeholder="to : " multiple>
-		<% users.each(function(user){ %>
-			<option value=<%= user.get('uid') %> > <%= user.get('email') %> </option>
-		<% }); %>
+
 	</select>
 </script>
 

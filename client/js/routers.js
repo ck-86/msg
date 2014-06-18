@@ -44,9 +44,8 @@ appRouter.on('route:composeRoute', function() {
 	clearMain();
 
 		//Get all users for email list
-		window.users = new Users;
 		//users.fetchUsers();
-		
+		window.usersArray = []; //Setting Global User Array
 
 	var logoutButton = new LogoutButtonView;
 	$('.menu-button').html( logoutButton.render().el );
