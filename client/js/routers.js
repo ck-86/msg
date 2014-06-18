@@ -102,11 +102,11 @@ appRouter.on('route:viewMailRoute', function(uid){
 	var sidebarView = new SidebarView;
 	$('.main').append(sidebarView.render().el);
 
-	//var readView = new ReadView;
-	//$('.main').append( readView.render().el );
-
 	var message = new Message;
 	message.fetchMessage( uid, function(msg){
+
+		console.log( msg.toJSON() );
+		
 		var readView = new ReadView({model:msg});
 		$('.main').append( readView.render().el );
 	});

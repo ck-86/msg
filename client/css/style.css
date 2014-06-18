@@ -187,3 +187,12 @@ body {
 .message_info_recipient li:last-child:after{
   content: '';
 }
+
+.message_info_footer{
+  border-top: 1px solid #EEEEEE;
+  padding: 10px;
+}
+
+.message_reply{
+  margin-top: 20px;
+}

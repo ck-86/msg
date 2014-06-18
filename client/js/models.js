@@ -24,18 +24,18 @@ Message.prototype.create = function(model) {
 Message.prototype.fetchMessage = function(message_uid, callback) {
 
 	var msg = new Message;
-	var testdata = null;
+	var data = null;
 
 	var messageQuery = new Built.Query('message');
 	messageQuery.where('uid', message_uid);
+	messageQuery.where('message_recipient_uid', Built.User.getSession().uid);
 	messageQuery.include('message_creator_uid');
 	messageQuery.include('message_recipient_uid');
 	messageQuery.exec().then( function(response){
 		_.each(response, function(message){
-			//console.log(message);
-			testdata = message;
+			data = message; //Setting Data b'coz of scope is changed
 		});
 	}).then( function(){
-		callback(testdata);
+		callback(data);
 	});
 }

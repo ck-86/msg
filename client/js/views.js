@@ -258,7 +258,10 @@ var ComposeView = Backbone.View.extend({
 var ReadView = Backbone.View.extend({
 
 	initialize: function(){
-		console.log(this.model.toJSON());
+	},
+
+	events : {
+		'click .btn-reply' : 'sayHello'
 	},
 
 	template: getTemplate('readTemplate'),
@@ -266,6 +269,10 @@ var ReadView = Backbone.View.extend({
 	render: function() {
 		this.$el.html( this.template( this.model.toJSON() ) );
 		return this;
+	},
+
+	sayHello : function(){
+		console.log( this.model.get('uid') );
 	}
 });
 
