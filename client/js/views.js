@@ -252,6 +252,20 @@ var ComposeView = Backbone.View.extend({
 	}
 });
 
+
+/*----------------------------------------/
+	Reply View
+/-----------------------------------------*/
+var ReplyView = Backbone.View.extend({
+	template: getTemplate('replyTemplate'),
+
+	render: function(){
+		this.$el.html( this.template() );
+		return this;
+	}
+});
+
+
 /*----------------------------------------/
 	Email Read Template
 /-----------------------------------------*/

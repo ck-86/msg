@@ -162,6 +162,29 @@
 	</div>
 </script>
 
+
+<!-- Reply Template -->
+<script type="text/template" id="replyTemplate">
+	<div class="col-md-6">
+		<form id="reply-form">
+
+			<div id="recipient">
+			<input class="form-control" placeholder="Please wait loading..." value="test@test.com" disabled></input>
+			</div>
+
+			<input class="form-control" id="message_subject" placeholder="subject : " value="test subject" disabled></input>
+
+			<textarea class="form-control" rows="5" id="message_body" placeholder="message : "></textarea>
+			<div class="button-right">
+				<button class='send btn btn-md btn-success'>
+					<span class="glyphicon glyphicon-send"></span>
+						Send Message
+				</button>
+			</div>
+		</form>
+	</div>
+</script>
+
 <!-- Email Read Template -->
 <script type="text/template" id="readTemplate">
 	<div class="col-md-6">
@@ -188,9 +211,7 @@
 			</div>
 
 			<div class="message_info_footer button-right">
-				<div class="btn-group">
-					<button class="btn btn-default btn-sm btn-reply">Reply</button>
-				</div>
+					<a href=<%- '#/' + Backbone.history.fragment + '/reply' %> class="btn btn-default btn-sm btn-reply">Reply</a>
 			</div>
 		</div>
 

@@ -10,6 +10,7 @@ var AppRouter = Backbone.Router.extend({
 		"compose" : "composeRoute",
 		"inbox" : "inboxRoute",
 		"inbox/:uid" : "viewMailRoute",
+		"inbox/:uid/reply" : "replyMailRoute",
 		"logout" : "logoutRoute",
 		"test" : "testRoute",
 		"*notFound" : "notFound" //404
@@ -42,9 +43,7 @@ appRouter.on('route:composeRoute', function() {
 	validateUserSession();
 	document.title = "Compose";
 	clearMain();
-
-		//Get all users for email list
-		//users.fetchUsers();
+	
 		window.usersArray = []; //Setting Global User Array
 
 	var logoutButton = new LogoutButtonView;
@@ -111,6 +110,27 @@ appRouter.on('route:viewMailRoute', function(uid){
 		$('.main').append( readView.render().el );
 	});
 });
+
+
+/*----------------------------------------/
+	Email Reply View
+/-----------------------------------------*/
+appRouter.on('route:replyMailRoute', function(uid) {
+	validateUserSession();
+	clearMain();
+	document.title = "Replying Email";
+
+	var logoutButton = new LogoutButtonView;
+	$('.menu-button').html( logoutButton.render().el );
+
+	var sidebarView = new SidebarView;
+	$('.main').append(sidebarView.render().el);
+
+	var replyView = new ReplyView;
+	$('.main').append( replyView.render().el );
+
+});
+
 
 /*----------------------------------------/
 	Logout Route
