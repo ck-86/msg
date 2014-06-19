@@ -223,7 +223,6 @@ var ComposeView = Backbone.View.extend({
 
 	events : {
 		'submit' : 'submit',
-
 	},
 
 	submit: function(e){
@@ -236,11 +235,15 @@ var ComposeView = Backbone.View.extend({
 			'message_recipient_uid' : $('#message_recipient_uid').val()
 		};
 		
+
+		console.log(messageObject);
+
 		var message = new Message;
 		message.set(messageObject); // Setting Value
 		message.save({
 			onSuccess : function(data) {
 				alert('1 Message Sent.');
+				//Empty Compose Form
 				$('#message_body').val('');
 				$('#message_subject').val('');
 				showRecipientSelectBox();
@@ -257,11 +260,49 @@ var ComposeView = Backbone.View.extend({
 	Reply View
 /-----------------------------------------*/
 var ReplyView = Backbone.View.extend({
+
+	initialize: function(){
+		console.log( this );
+	},
+
+	events : {
+		'click .reply' : 'sendReply'
+	},
+
 	template: getTemplate('replyTemplate'),
 
 	render: function(){
-		this.$el.html( this.template() );
+		this.$el.html( this.template( this.model.toJSON() ) );
 		return this;
+	},
+
+	sendReply : function(e) {
+		e.preventDefault();
+		window.messageObject = {
+			'message_creator_uid' : Array(Built.User.getSession().uid) , 
+			'message_subject' : 'Re:-' + this.model.get('message_subject'),
+			'message_body' : $('#message_body').val()
+		};
+
+		// Set `message_recipient_id` = last mail `message_creator_id`
+		var senderEmail = this.model.get('message_creator_uid');
+		messageObject.message_recipient_uid = Array(senderEmail[0].uid);
+		console.log(senderEmail[0].uid);
+
+
+		// Save Mesage
+		var message = new Message;
+		message.set(messageObject); // Setting Value
+		message.save({
+			onSuccess : function(data) {
+				alert('Your Reply Is Sent!');
+				//redirect to Inbox
+				Backbone.history.navigate('#/inbox');
+			},
+			onError : function(error) {
+				console.log(error);
+			}
+		});
 	}
 });
 
@@ -275,7 +316,7 @@ var ReadView = Backbone.View.extend({
 	},
 
 	events : {
-		'click .btn-reply' : 'sayHello'
+		'click .btn-reply' : 'reply'
 	},
 
 	template: getTemplate('readTemplate'),
@@ -285,8 +326,9 @@ var ReadView = Backbone.View.extend({
 		return this;
 	},
 
-	sayHello : function(){
-		console.log( this.model.get('uid') );
+	reply : function(){
+		var replyURL = '#' +Backbone.history.getHash() + '/reply';
+		Backbone.history.navigate( replyURL );
 	}
 });
 

@@ -106,7 +106,7 @@ appRouter.on('route:viewMailRoute', function(uid){
 
 		console.log( msg.toJSON() );
 		
-		var readView = new ReadView({model:msg});
+		var readView = new ReadView( {model:msg} );
 		$('.main').append( readView.render().el );
 	});
 });
@@ -126,8 +126,11 @@ appRouter.on('route:replyMailRoute', function(uid) {
 	var sidebarView = new SidebarView;
 	$('.main').append(sidebarView.render().el);
 
-	var replyView = new ReplyView;
-	$('.main').append( replyView.render().el );
+	var message = new Message;
+	message.fetchMessage( uid , function(msg) {
+		var replyView = new ReplyView( {model:msg} );
+		$('.main').append( replyView.render().el );
+	});
 
 });
 

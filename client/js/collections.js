@@ -22,7 +22,6 @@ var Messages = Backbone.Collection.extend({
 	fetchMessages : function(callback){
 
 		var messages = new Messages; //Init in local scope
-
 		var inboxQuery = new Built.Query('message');
 		inboxQuery.where('message_recipient_uid',Built.User.getSession().uid);
 		inboxQuery.include('message_creator_uid');

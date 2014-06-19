@@ -168,17 +168,29 @@
 	<div class="col-md-6">
 		<form id="reply-form">
 
-			<div id="recipient">
-			<input class="form-control" placeholder="Please wait loading..." value="test@test.com" disabled></input>
-			</div>
+			<p>	Reply To : 
+				<% _.each(message_creator_uid, function(creator) { %> 
+					<%- creator.email %>
+				<% } ); %>
+			</p>
 
-			<input class="form-control" id="message_subject" placeholder="subject : " value="test subject" disabled></input>
+			<p> Subject : 
+				<%= "Re:-" + message_subject %>
+			</p>
 
-			<textarea class="form-control" rows="5" id="message_body" placeholder="message : "></textarea>
+<textarea class="form-control" rows="8" id="message_body" placeholder="message : ">
+
+
+- - -  OLD MESSAGE (<%= created_at %>)  - - -
+
+<%= message_body %>
+
+</textarea>
+
 			<div class="button-right">
-				<button class='send btn btn-md btn-success'>
+				<button class='reply btn btn-md btn-info'>
 					<span class="glyphicon glyphicon-send"></span>
-						Send Message
+						Send Reply
 				</button>
 			</div>
 		</form>
@@ -207,11 +219,11 @@
 
 			<div class="message_info_subject">Subject : <%- message_subject	%> </div>
 			<div class="message_info_body">
-				<%- message_body %>
+				<%= message_body.replace(new RegExp('\r?\n', 'g'), '<br />') %>
 			</div>
 
 			<div class="message_info_footer button-right">
-					<a href=<%- '#/' + Backbone.history.fragment + '/reply' %> class="btn btn-default btn-sm btn-reply">Reply</a>
+				<button class="btn btn-default btn-sm btn-reply">Reply</button>
 			</div>
 		</div>
 
